@@ -10,13 +10,17 @@ export default function NavLinks() {
   const links = [
     // { name: "Home", href: "/" },
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Create", href: "/create" },
+    { name: "Create", href: "/dashboard/create" },
   ];
 
   return (
     <>
       {links.map((link) => (
-        <Link key={link.name} href={link.href}>
+        <Link
+          key={link.name}
+          href={link.href}
+          className="flex grow items-center justify-center p-1"
+        >
           <p>{link.name}</p>
         </Link>
       ))}
