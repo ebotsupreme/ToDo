@@ -1,6 +1,6 @@
 import { createTodo } from "@/app/lib/actions";
 
-export default function CreateForm() {
+export default function CreateTodoForm() {
   return (
     <form action={createTodo}>
       <div>

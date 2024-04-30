@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
-import { TodosTable } from "./definitions";
+import { TodoForm, TodosTable } from "./definitions";
 
 export async function fetchTodos() {
   noStore();
@@ -12,7 +12,7 @@ export async function fetchTodos() {
 
     const data =
       await sql<TodosTable>`SELECT todos.id, todos.user_id, todos.title, todos.description, todos.status, todos.date
-    From todos
+    FROM todos
     ORDER BY todos.date DESC
     `;
 
@@ -22,5 +22,30 @@ export async function fetchTodos() {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch todos data.");
+  }
+}
+
+export async function fetchTodoById(id: string) {
+  noStore();
+
+  try {
+    console.log("fetching todo by id...");
+    const data = await sql<TodoForm>`
+            SELECT
+                todos.id,
+                todos.user_id,
+                todos.title,
+                todos.description,
+                todos.status
+            FROM todos
+            WHERE todos.id = ${id}
+        `;
+
+    console.log("Data fetch by id completed.");
+
+    return data.rows[0];
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch todo by id.");
   }
 }

@@ -39,3 +39,29 @@ export async function createTodo(formData: FormData) {
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }
+
+const UpdateTodo = FormSchema.omit({
+  id: true,
+  date: true,
+  status: true,
+  userId: true,
+});
+
+export async function updateTodo(id: string, formData: FormData) {
+  const { title, description } = UpdateTodo.parse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+  });
+  const date = new Date().toISOString().split("T")[0];
+  // TODO: Update userId once auth is complete
+  const userId = "test123";
+  const status = "incomplete";
+
+  await sql`
+    UPDATE todos
+    SET user_id = ${userId}, title = ${title}, description = ${description}, status = ${status}, date = ${date}
+    WHERE id = ${id}
+    `;
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
+}

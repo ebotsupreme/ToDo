@@ -1,4 +1,4 @@
-import CreateForm from "@/app/ui/dashboard/create-form";
+import CreateTodoForm from "@/app/ui/dashboard/create-form";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default async function Page() {
   return (
     <main>
-      <CreateForm />
+      <CreateTodoForm />
     </main>
   );
 }
