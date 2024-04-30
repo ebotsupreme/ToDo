@@ -1,6 +1,5 @@
 import { fetchTodos } from "@/app/lib/datas";
-import { PencilIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import { DeleteTodo, UpdateTodo } from "./buttons";
 
 export default async function GetTodos() {
   const getTodos = await fetchTodos();
@@ -16,9 +15,8 @@ export default async function GetTodos() {
                 <p className="flex justify-center text-lg font-medium">
                   {todo.title}
                 </p>
-                <Link href={`/dashboard/${todo.id}/edit`}>
-                  <PencilIcon className="w-5" />
-                </Link>
+                <UpdateTodo id={todo.id} />
+                <DeleteTodo id={todo.id} />
               </div>
               <p>{todo.description}</p>
             </div>

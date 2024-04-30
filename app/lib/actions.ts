@@ -26,7 +26,9 @@ export async function createTodo(formData: FormData) {
     title: formData.get("title"),
     description: formData.get("description"),
   });
-  const date = new Date().toISOString().split("T")[0];
+  //   const date = new Date().toISOString().split("T")[0];
+  const date = new Date().toISOString().slice(0, 19).replace("T", " ");
+  console.log("date ", date);
   // TODO: Update userId once auth is complete
   const userId = "test123";
   const status = "incomplete";
@@ -52,7 +54,8 @@ export async function updateTodo(id: string, formData: FormData) {
     title: formData.get("title"),
     description: formData.get("description"),
   });
-  const date = new Date().toISOString().split("T")[0];
+  //   const date = new Date().toISOString().split("T")[0];
+  const date = new Date().toISOString().slice(0, 19).replace("T", " ");
   // TODO: Update userId once auth is complete
   const userId = "test123";
   const status = "incomplete";
@@ -64,4 +67,9 @@ export async function updateTodo(id: string, formData: FormData) {
     `;
   revalidatePath("/dashboard");
   redirect("/dashboard");
+}
+
+export async function deleteTodo(id: string) {
+  await sql`DELETE FROM todos WHERE id=${id}`;
+  revalidatePath("/dashboard");
 }
