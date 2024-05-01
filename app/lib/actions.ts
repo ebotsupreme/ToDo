@@ -33,11 +33,17 @@ export async function createTodo(formData: FormData) {
   const userId = "test123";
   const status = "incomplete";
   console.log("sending... ", title);
-  await sql`
+  try {
+    await sql`
     INSERT INTO todos (user_id, title, description, status, date)
     VALUES (${userId}, ${title}, ${description}, ${status}, ${date})
     `;
-  console.log("sent...");
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Create Todo.",
+    };
+  }
+
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }
@@ -59,17 +65,28 @@ export async function updateTodo(id: string, formData: FormData) {
   // TODO: Update userId once auth is complete
   const userId = "test123";
   const status = "incomplete";
-
-  await sql`
+  try {
+    await sql`
     UPDATE todos
     SET user_id = ${userId}, title = ${title}, description = ${description}, status = ${status}, date = ${date}
     WHERE id = ${id}
     `;
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Update Todo.",
+    };
+  }
+
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }
 
 export async function deleteTodo(id: string) {
-  await sql`DELETE FROM todos WHERE id=${id}`;
-  revalidatePath("/dashboard");
+  throw new Error("Failed to Delete Todo");
+  try {
+    await sql`DELETE FROM todos WHERE id=${id}`;
+    revalidatePath("/dashboard");
+  } catch (error) {
+    return { message: "Database Error: Failed to Delete Todo." };
+  }
 }

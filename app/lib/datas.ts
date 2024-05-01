@@ -42,7 +42,7 @@ export async function fetchTodoById(id: string) {
         `;
 
     console.log("Data fetch by id completed.");
-
+    console.log(data.rows[0]);
     return data.rows[0];
   } catch (error) {
     console.error("Database Error:", error);
