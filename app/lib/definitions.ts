@@ -14,3 +14,8 @@ export type TodoForm = {
   description: string;
   status: "incomplete" | "complete";
 };
+
+export type TodoField = {
+  title: string;
+  description: string;
+};
